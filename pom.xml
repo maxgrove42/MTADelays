@@ -12,11 +12,19 @@
 		    <artifactId>json</artifactId>
 		    <version>20210307</version>
 		</dependency>
+		
 		<dependency>
 		    <groupId>org.mobilitydata</groupId>
         	<artifactId>gtfs-realtime-bindings</artifactId>
         	<version>0.0.8</version>
         </dependency>
+        
+        <dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.23</version>
+		</dependency>
+
 	</dependencies>
  
 </project>
