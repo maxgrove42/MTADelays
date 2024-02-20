@@ -31,10 +31,6 @@ public class GTFSFeedRealtime {
 		}
 	}
 	
-	private static class Stop {
-		String stopID;
-		String stopName;
-	}
 
 	public static FeedMessage fetchRealtimeData(String urlString) throws Exception {
 		URL url = new URL(urlString);
@@ -46,8 +42,6 @@ public class GTFSFeedRealtime {
 			connection.disconnect();
 		}
 	}
-	
-	//public static void getAPIURL()
 	
     public static void printNextArrivalTime(String feedUrl, String stopId) throws Exception {
         // Fetch and parse the GTFS Realtime feed
