@@ -5,42 +5,57 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class DatabaseHelper {
-	private static final String URL = "jdbc:mysql://localhost:3306/";
-	private static final String USER = "root";
-	private static final String PASSWORD = "sql-pwd";
+	private static String DEFAULT_URL = "jdbc:mysql://localhost:3306/mtadelays";
+	private static String DEFAULT_USER = "root";
+	private static String DEFAULT_PASSWORD = "sql-pwd";
 	
+	private String url;
+	private String user;
+	private String password;
 	
-	public static void createDatabase() {
-		String databaseName = "mtadelays";
-		String query = "create database if not exists " + databaseName + "; ";
-		String query2 = "use " + databaseName + ";";
-				
-		try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.executeUpdate();
-            
-            PreparedStatement pstmt2 = conn.prepareStatement(query2);
-            pstmt2.executeUpdate();
-            
-            System.out.println("DB creation successful");
-        } catch (Exception e) {
+	/**
+	 * Default constructor for DatabaseHelper
+	 */
+	DatabaseHelper() {
+		this.url = DEFAULT_URL;
+		this.user = DEFAULT_USER;
+		this.password = DEFAULT_PASSWORD;
+	}
+	
+	/**
+	 * Constructor for DatabaseHelper to use custom connection information
+	 * @param url
+	 * @param user
+	 * @param password
+	 */
+	DatabaseHelper(String url, String user, String password) {
+		this.url = DEFAULT_URL;
+		this.user = DEFAULT_USER;
+		this.password = DEFAULT_PASSWORD;
+	}
+	
+	public void executeQuery(String query) {
+		try (Connection conn = DriverManager.getConnection(url, user, password);
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
         	System.out.println("DB creation failed.");
             e.printStackTrace();
         }
 	}
 	
-	/**
-	 * Creates the station table. Will replace the station table
-	 * if it already exists.
-	 * Throws an exception when CREATE TABLE fails.
-	 */
+	/*
+
 	public static void createStationsTable() {
-		String query = "CREATE TABLE IF NOT EXISTS Stations ("
-				+ "stopID		varchar(5)	PRIMARY KEY,"
-				+ "line			varchar(3)	PRIMARY KEY,"
+		String query = "CREATE OR REPLACE TABLE Stations ("
+				+ "stopID		varchar(5),"
+				+ "line			varchar(3),"
 				+ "stopName		varchar(40),"
 				+ "borough		char(1),"
-				+ "direction	varchar(40)"
+				+ "direction	varchar(40),"
+				+ "PRIMARY KEY (stopID, line)"
 				+ ");";
 		
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -54,15 +69,7 @@ public class DatabaseHelper {
         }
 	}
 	
-	/**
-	 * Inserts a row into the Stations table. Will try to create stations table
-	 * if it does not already exist.
-	 * @param stopID
-	 * @param line
-	 * @param stopName
-	 * @param borough
-	 * @param direction
-	 */
+
 	public static void addStation(String stopID, String line,
 			String stopName, String borough, String direction) {
 		
@@ -89,9 +96,7 @@ public class DatabaseHelper {
 	       e.printStackTrace();
 	   }	
 	}
-	
+	*/
 	public static void main(String[] args) {
-		createDatabase();
-		addStation("R01N", "N", "Astoria-Ditmars Blvd", "Q", "Last Stop");
 	}
 }

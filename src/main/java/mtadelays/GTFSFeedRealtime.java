@@ -147,7 +147,7 @@ public class GTFSFeedRealtime {
 				default:
 					feedUrl = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs";
 			}
-			printNextArrivalTime(feedUrl, "R16N");
+			printNextArrivalTime(feedUrl, "714N");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
